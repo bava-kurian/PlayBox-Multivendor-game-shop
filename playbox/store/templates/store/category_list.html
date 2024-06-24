@@ -1,0 +1,21 @@
+{%extends 'core/base.html'%} {%block baseblock%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{%block title%}Categories{%endblock%}Categories List</title>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <!DOCTYPE html>
+
+  <div class="container">
+    <h1>Categories</h1>
+    <div id="categoryList">
+      {% for category in categories %} 
+{% if not category.parent %}
+      {%include 'store/category_item.html' with category=category %} {% endif %}
+      {%endfor%}
+    </div>
+  </div>
+
+  {%endblock%}
+</html>

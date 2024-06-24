@@ -1,0 +1,238 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlayBox-{%block title%}{%endblock%}</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
+      integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: #121212;
+        color: #fff;
+      }
+      .navbar {
+        background-color: #1f1f1f;
+      }
+      .navbar-brand,
+      .nav-link {
+        color: #ff3e3e !important;
+      }
+      .navbar-brand img {
+        color: red;
+        height: 40px;
+        margin-right: 10px;
+      }
+      .nav-link:hover {
+        color: #ff6666 !important;
+      }
+      .card {
+        background-color: #1f1f1f;
+        border: 1px solid #333;
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .card-title,
+      .card-text,
+      .card-price {
+        color: #fff;
+      }
+      .btn-primary,
+      .btn-success {
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+      .btn-primary {
+        background-color: #ff3e3e;
+        border-color: #ff3e3e;
+      }
+      .btn-primary:hover {
+        background-color: #ff6666;
+        border-color: #ff6666;
+      }
+      .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+      .btn-success:hover {
+        background-color: #218838;
+        border-color: #218838;
+      }
+
+      .footer {
+        background-color: #1f1f1f;
+        color: #ff3e3e;
+        padding: 20px;
+        text-align: center;
+      }
+      .footer a {
+        color: #ff3e3e;
+      }
+      .navbar-toggler-icon {
+        border-color: red;
+      }
+      .carousel-item {
+        height: 100vh;
+      }
+      .carousel-item img {
+        height: 100%;
+        object-fit: cover;
+      }
+      .card {
+        background-color: #2a2a2a;
+        border: 1px solid #ff3e3e;
+      }
+      .card-title,
+      .card-text {
+        color: #fff;
+      }
+      .card-title {
+        font-size: 1.1rem;
+      }
+      .card-text {
+        font-size: 0.9rem;
+      }
+      .btn-primary {
+        background-color: #ff3e3e;
+        border: none;
+      }
+      .btn-primary:hover {
+        background-color: #ff6666;
+      }
+      .btn-success {
+        background-color: #28a745;
+        border: none;
+      }
+      .btn-success:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'core/logo.svg' %}" alt="Game Bazaar Logo" />
+        PlayBox
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <form
+              class="form-inline search-form"
+              method="GET"
+              action="{% url 'search' %}"
+            >
+              <input
+                class="form-control mr-sm-2 search-input"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                name="q"
+              />
+              <button
+                class="btn btn-outline-danger my-2 my-sm-0 search-btn"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="{%url 'category_detail' slug='consoles' %}"
+              >Consoles</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="{%url 'category_detail' slug='video-games' %}"
+              >Games</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="{%url 'category_detail' slug='accessories' %}"
+              >Accessories</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-shopping-cart"></i> Cart</a
+            >
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user"></i> Profile
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'user_profile' %}"
+                >View Profile</a
+              >
+              <a class="dropdown-item" href="{%url 'logout_confirm'%}"
+                >Logout</a
+              >
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'login'%}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    {% block baseblock%} {%endblock%}
+
+    <footer class="footer mt-5">
+      <p>&copy; 2024 PlayBox. All rights reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms of Service</a>
+      </p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

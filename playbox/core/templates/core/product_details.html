@@ -1,0 +1,42 @@
+{%extends 'core/base.html'%} {%block baseblock%}
+<!DOCTYPE html>
+<html lang="en">
+  <title>{%block title%}Product-Details{%endblock%}</title>
+  <style>
+    .btn-primary {
+      background-color: #ff3e3e;
+      border-color: #ff3e3e;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #ff6666;
+      border-color: #ff6666;
+    }
+    .img-fluid {
+      border: 1px solid #333;
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .img-fluid:hover {
+      transform: scale(1.1);
+      filter: brightness(1.2);
+    }
+  </style>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="path/to/image.jpg" class="img-fluid" alt="Product Image" />
+      </div>
+      <div class="col-md-6">
+        <h1>{{product.name}}</h1>
+        <p class="text-muted">Category: {{product.category}} / Consoles</p>
+        <h2></h2>
+        <p>{{product.description}}</p>
+        <p><strong>Vendor:</strong> Vendor Name</p>
+        <button class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  {%endblock%}
+</html>

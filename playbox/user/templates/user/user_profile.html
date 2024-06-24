@@ -1,0 +1,118 @@
+{%extends 'core/base.html'%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   
+    <title>{%block title%}{% firstof request.user.get_full_name user.username %}{%endblock%}</title>
+
+    <style>
+    
+      .vendor-title {
+        color: #ff3e3e;
+        margin: 30px 0 10px;
+      }
+      .card {
+        background-color: #1f1f1f;
+        border: 1px solid #333;
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .card-title,
+      .card-text,
+      .card-price {
+        color: #fff;
+      }
+      .btn-primary,
+      .btn-success {
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+      .btn-primary {
+        background-color: #ff3e3e;
+        border-color: #ff3e3e;
+      }
+      .btn-primary:hover {
+        background-color: #ff6666;
+        border-color: #ff6666;
+      }
+      .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+      .btn-success:hover {
+        background-color: #218838;
+        border-color: #218838;
+      }
+      .card-img-top {
+        transition: transform 0.3s, filter 0.3s;
+      }
+      .card:hover .card-img-top {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+      }
+      .footer {
+        background-color: #1f1f1f;
+        color: #ff3e3e;
+        padding: 20px;
+        text-align: center;
+      }
+      .footer a {
+        color: #ff3e3e;
+      }
+    </style>
+  </head>
+  {%block baseblock%}
+    
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="vendor-title">{{request.user.username}}</h1>
+          <p>Location: City, Country</p>
+          <p>Email: vendor@example.com</p>
+          <p>Phone: (123) 456-7890</p>
+          <p>
+            Description: Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit. Nulla vehicula, justo ut interdum aliquet, leo elit pharetra
+            massa, ac bibendum odio ligula ac risus.
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="vendor-title">Products</h2>
+        </div>
+        <!-- Repeat this block for each product -->
+         {%for p in products%}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <img
+              src="{{p.image.url}}"
+              class="card-img-top"
+              alt="Product Image"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{p.title}}</h5>
+              <p class="card-text"></p>
+              <p class="card-price">Rs{{p.price}}</p>
+              <a href="{%url 'product_details' p.slug%}" class="btn btn-primary mb-2"
+                >View Details</a
+              >
+              <a href="#" class="btn btn-success mb-2">Buy Now</a>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+        <!-- End of product block -->
+      </div>
+    </div>
+    {%endblock%}
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

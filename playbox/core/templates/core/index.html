@@ -1,0 +1,133 @@
+
+{% extends 'core/base.html' %}
+{%load static%}
+{% block title %}Home{% endblock %}
+
+{% block baseblock %}
+<!-- Hero Section with Carousel -->
+<div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" style="height: 100vh;">
+    <div class="carousel-inner" style="height: 100%;">
+        <div class="carousel-item active" style="height: 100%;">
+            <!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Welcome to PlayBox</h1>
+                <p>Your one-stop shop for all gaming needs</p>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 100%;">
+            <<!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Latest Consoles</h1>
+                <p>Discover the newest gaming consoles</p>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 100%;">
+            <!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Top Games</h1>
+                <p>Find the latest and greatest games</p>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- New Arrivals Section -->
+<h2 class="mt-5">New Arrivals</h2>
+<div class="row">
+    {% for product in new_arrivals %}
+    <div class="col-md-3">
+        <div class="card mb-4" style="width: 14rem;">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                    {{ product.description|truncatewords:20 }}
+                </p>
+                <p class="card-text"><strong>${{ product.price }}</strong></p>
+                <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Consoles Section -->
+<h2 class="mt-5">Consoles</h2>
+<div class="row">
+    {% for product in consoles %}
+    <div class="col-md-3">
+        <div class="card mb-4" style="width: 14rem;">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                    {{ product.description|truncatewords:20 }}
+                </p>
+                <p class="card-text"><strong>${{ product.price }}</strong></p>
+                <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Controllers Section -->
+<h2 class="mt-5">Controllers</h2>
+<div class="row">
+    {% for product in controllers %}
+    <div class="col-md-3">
+        <div class="card mb-4" style="width: 14rem;">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                    {{ product.description|truncatewords:20 }}
+                </p>
+                <p class="card-text"><strong>${{ product.price }}</strong></p>
+                <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Accessories Section -->
+<h2 class="mt-5">Accessories</h2>
+<div class="row">
+    {% for product in accessories %}
+    <div class="col-md-3">
+        <div class="card mb-4" style="width: 14rem;">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                    {{ product.description|truncatewords:20 }}
+                </p>
+                <p class="card-text"><strong>${{ product.price }}</strong></p>
+                <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "core/base.html" %} 
+{%block title%}Category-{{category.name}}{%endblock%}
+{% block baseblock %}
+<div class="container mt-5">
+  <h1>Category: {{ category.name }}</h1>
+  <p>{{ category.description }}</p>
+
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">
+            {% if product.description|length > 20 %}
+                {{ product.description|truncatewords:20 }}...
+            {% else %}
+                {{ product.description }}
+            {% endif %}
+        </p>
+          <p class="card-text"><strong>Price:</strong> ₹{{ product.price }}</p>
+          <p class="card-text"><strong>Stock:</strong> {{ product.stock }}</p>
+          <a
+            href="{% url 'product_details' product.slug %}"
+            class="btn btn-primary"
+            >View Product</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

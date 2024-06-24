@@ -1,0 +1,32 @@
+find resorces✅
+create env✅
+create django proj✅
+create apps ✅
+    -app for userprofile✅
+        -usermodels✅
+    -app for store✅
+        -models for categories✅
+        -populate categories✅
+        -models for product✅
+-create tempaltes✅
+-usercretaion✅
+    -signin,login,logout✅
+    -myprofile✅
+-product view✅
+    -add discount
+    -more style
+    -show vendor name ✅
+-show images✅
+-implement search
+-category view
+-vendor creation and details
+-fix the vendor view
+-add product
+-remove product
+-adminpage for vendors
+-buy options
+    -cart
+    -wishlist
+    -checkout
+    -payments(optional)
+-deplaymonet-digitalocena/heroku/pythonaywhere
