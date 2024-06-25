@@ -40,6 +40,7 @@
         color: #ff6666 !important;
       }
       .card {
+        margin:20px;
         background-color: #1f1f1f;
         border: 1px solid #333;
         transition: transform 0.3s;
@@ -208,6 +209,7 @@
               <a class="dropdown-item" href="{%url 'logout_confirm'%}"
                 >Logout</a
               >
+              <a class="dropdown-item" href="{%url 'my_store'%}">MyStore</a>
             </div>
           </li>
           {% else %}

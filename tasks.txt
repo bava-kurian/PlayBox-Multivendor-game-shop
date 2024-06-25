@@ -17,12 +17,14 @@ create apps ✅
     -more style
     -show vendor name ✅
 -show images✅
--implement search
+-implement search✅
 -category view
 -vendor creation and details
 -fix the vendor view
--add product
--remove product
+-add product✅
+-remove product✅
+-edit product✅
+-keep track of products give admin approval and status (optional)
 -adminpage for vendors
 -buy options
     -cart

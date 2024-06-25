@@ -1,0 +1,16 @@
+{% extends "core/base.html" %} {% block baseblock %}
+<div class="container mt-5">
+  <h1>Remove Product</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <p>Are you sure you want to remove the product "{{ product.name }}"?</p>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remove</button>
+        <a href="{% url 'my_store' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

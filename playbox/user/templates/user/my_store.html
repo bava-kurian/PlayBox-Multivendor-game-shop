@@ -1,0 +1,53 @@
+{% extends "core/base.html" %} 
+{% block title %}My Store{% endblock %}
+{% block baseblock %}
+
+
+
+<div class="container mt-5">
+  <h1>Your Store</h1>
+
+
+  <div class="card mb-4">
+        {% if messages %}
+    {% for message in messages %}
+            {{ message }}
+    {% endfor %}
+{% endif %}
+  </div>
+  <!-- Add Product Form -->
+  <div class="card mb-4">
+    <div class="card-header">Add Product</div>
+    <div class="card-body">
+       <a href="{% url 'add_product' %}"><button  class="btn btn-primary">Add Product</button></a> 
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+            {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">
+            {% if product.description|length > 20 %}
+                {{ product.description|truncatewords:20 }}...
+            {% else %}
+                {{ product.description }}
+            {% endif %}
+        </p>
+          <p class="card-text"><strong>Price:</strong> ₹{{ product.price }}</p>
+          <p class="card-text"><strong>Stock:</strong> {{ product.stock }}</p>
+          <a href="{%url 'edit_product' product.slug %}"><button type="submit" class="btn btn-danger">Edit</button></a>
+          <a href="{%url 'remove_product' product.slug %}"><button type="submit" class="btn btn-danger">Remove Product</button></a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

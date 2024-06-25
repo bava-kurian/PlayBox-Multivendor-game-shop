@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# If you are using PostgreSQL:
+*.pgdata
+
+# Media files
+media/
+
+# Static files
+staticfiles/
+
+# If you are using Django Compressor
+compressed/
+
+# Other standard Python files:
+*.env
+*.venv
+venv/
+ENV/
+env/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox
+nosetests.xml
+coverage.xml
+*,cover
+
+# Translations
+*.mo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Unit test / coverage reports
+*.cover
+.hypothesis/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+tasks.txt
