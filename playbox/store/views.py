@@ -1,7 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import TemplateView,DetailView
-from .models import Product,Category
+from .models import Product,Category,Cart,CartItem
+from user.models import UserProfile
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 # Create your views here.
 
 def ProductDetailView(request,slug):
@@ -39,3 +42,46 @@ def Search(request):
     results = Product.objects.filter(Q(name__icontains=query)|Q(description__contains=query))  
     print('query:',results)
     return render(request, 'store/search.html', {'query': query, 'results': results})
+
+
+def AddToCart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+    if not item_created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('view_cart')
+
+@login_required
+def ViewCart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+
+    return render(request, 'store/view_cart.html', {'cart_items': cart_items})
+
+@login_required
+def RemoveFormCart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+
+    return redirect('view_cart')
+
+@login_required
+def IncrementQuantity(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('view_cart')
+
+@login_required
+def DecrementQuantity(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+    return redirect('view_cart')

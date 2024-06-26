@@ -28,6 +28,9 @@ create apps ✅
 -adminpage for vendors
 -buy options
     -cart
+        -add✅
+        -remove✅
+        -inceremt and decrement✅
     -wishlist
     -checkout
     -payments(optional)
