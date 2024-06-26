@@ -78,7 +78,7 @@ def AddProduct(request):
         form = ProductForm()
     categories = Category.objects.all()
     return render(request, 'user/add_product.html', {'form': form, 'categories': categories})
-
+@login_required
 def RemoveProduct(request,slug):
     user=UserProfile.objects.get(user=request.user)
     product=Product.objects.get(slug=slug,user=user)
@@ -89,7 +89,7 @@ def RemoveProduct(request,slug):
         return redirect('my_store')
     
     return render(request, 'user/confirm_remove_product.html', {'product': product})
-
+@login_required
 def EditProduct(request,slug):
     
     user=UserProfile.objects.get(user=request.user)

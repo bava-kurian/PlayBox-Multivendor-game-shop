@@ -13,12 +13,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
-      integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" />
     <style>
       body {
         background-color: #121212;
@@ -156,10 +155,9 @@
                 name="q"
               />
               <button
-                class="btn btn-outline-danger my-2 my-sm-0 search-btn"
+                class="btn btn-outline-danger my-2 my-sm-0 "
                 type="submit"
-              >
-                Search
+              ><i class="fa-solid fa-magnifying-glass fa-beat" style="color: #ff0000;"></i>
               </button>
             </form>
           </li>
@@ -184,12 +182,12 @@
               >Accessories</a
             >
           </li>
+          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#"
+            <a class="nav-link" href="{% url 'view_cart' %}"
               ><i class="fas fa-shopping-cart"></i> Cart</a
             >
           </li>
-          {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -202,14 +200,10 @@
             >
               <i class="fas fa-user"></i> Profile
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{% url 'user_profile' %}"
-                >View Profile</a
-              >
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 30px;">
+              <a class="dropdown-item" href="{%url 'my_store'%}">My Store</a>
               <a class="dropdown-item" href="{%url 'logout_confirm'%}"
-                >Logout</a
-              >
-              <a class="dropdown-item" href="{%url 'my_store'%}">MyStore</a>
+                >Logout</a>
             </div>
           </li>
           {% else %}

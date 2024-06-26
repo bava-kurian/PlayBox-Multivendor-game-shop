@@ -43,7 +43,7 @@ def Search(request):
     print('query:',results)
     return render(request, 'store/search.html', {'query': query, 'results': results})
 
-
+@login_required
 def AddToCart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -59,8 +59,10 @@ def AddToCart(request, product_id):
 def ViewCart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.all()
+    
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
 
-    return render(request, 'store/view_cart.html', {'cart_items': cart_items})
+    return render(request, 'store/view_cart.html', {'cart_items': cart_items,'total_price':total_price})
 
 @login_required
 def RemoveFormCart(request, cart_item_id):
