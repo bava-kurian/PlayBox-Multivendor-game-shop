@@ -30,3 +30,5 @@ def IndexView(request):
     return render(request, 'core/index.html', context)
 
     
+def custom_404(request, exception):
+    return render(request, 'user/404.html', status=404)

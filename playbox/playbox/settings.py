@@ -14,18 +14,21 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import environ
 
+env=environ.Env()
+
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*9*i!rb0suq_xaj_h(@$nz^m14yt!kg4gxt8%*orwhyf&h^3u='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 #razorpay 
 RAZORPAY_KEY_ID='rzp_test_2psiWj6uUNU38t'
 RAZORPAY_SECRET_KEY='bREGKvCAX6sGHVzl5vRaKFsb'
@@ -76,13 +79,19 @@ WSGI_APPLICATION = 'playbox.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
+''''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}'''
+import dj_database_url
+import os
+
+DATABASES = {
+	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
+
 
 
 # Password validation

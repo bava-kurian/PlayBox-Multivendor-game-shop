@@ -3,6 +3,7 @@ from django.urls import path,include
 from core.views import BaseView,IndexView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler404
 import store,user
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,3 +13,5 @@ urlpatterns = [
     path('',include('user.urls')),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'core.views.custom_404'
