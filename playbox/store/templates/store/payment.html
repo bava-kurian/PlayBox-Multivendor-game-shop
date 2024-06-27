@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %} {%load static%} {% block baseblock %}
+<h1>Payment</h1>
+<form method="post" action="{{ callback_url }}">
+  <script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="{{ razorpay_key }}"
+    data-amount="{{ amount }}"
+    data-currency="INR"
+    data-order_id="{{ razorpay_order_id }}"
+    data-buttontext="Pay with Razorpay"
+    data-name="Playbox"
+    data-description="Payment for order {{ order.id }}"
+    data-image="{% static 'core/logo.png' %}"
+    data-prefill.name="{{ order.first_name }} {{ order.last_name }}"
+    data-prefill.email="{{ order.email }}"
+    data-prefill.contact="{{ order.phone }}"
+    data-theme.color="#F37254"
+  ></script>
+  <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id" />
+  <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" />
+  <input type="hidden" name="razorpay_signature" id="razorpay_signature" />
+</form>
+{% endblock %}

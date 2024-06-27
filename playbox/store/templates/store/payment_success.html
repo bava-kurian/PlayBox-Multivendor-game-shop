@@ -1,30 +1,8 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %} {% block baseblock %}
+<h1>Payment Successful</h1>
+<p>Your payment was successful. Thank you for your purchase!</p>
+<a href="{% url 'order_history' %}">View Order History</a>
+<br>
+<a href="{% url 'user_profile' %}"><button class="btn btn-primary">My profile</button></a>
 
-{% block baseblock %}
-  <h1>Payment Successful</h1>
-  <p>Thank you for your purchase, {{ order.first_name }} {{ order.last_name }}!</p>
-  <p>Your order has been successfully placed and the payment has been confirmed.</p>
-  
-  <h2>Order Details</h2>
-  <ul>
-    <li>Order ID: {{ order.id }}</li>
-    <li>Customer Name: {{ order.first_name }} {{ order.last_name }}</li>
-    <li>Address: {{ order.address }}</li>
-    <li>Phone: {{ order.phone }}</li>
-    <li>Email: {{ order.email }}</li>
-    <li>City: {{ order.city }}</li>
-    <li>Zipcode: {{ order.zipcode }}</li>
-    <li>Payment Status: Paid</li>
-    <li>Delivery Status: Processing</li>
-    <li>Order Date: {{ order.created_at }}</li>
-  </ul>
-
-  <h2>Ordered Products</h2>
-  <ul>
-    {% for item in order.items.all %}
-      <li>{{ item.product.name }} - {{ item.quantity }} - ₹{{ item.price }}</li>
-    {% endfor %}
-  </ul>
-
-  <p>Total Price: ₹{{ order.paid_amount }}</p>
 {% endblock %}

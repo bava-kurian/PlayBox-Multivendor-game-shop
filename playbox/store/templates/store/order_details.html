@@ -27,7 +27,7 @@
         {% for item in order_items %}
         <li
           class="list-group-item d-flex justify-content-between align-items-center" style="color:black" >
-          <p> {{ item.product.name }} </p>
+          <a href="{%url 'product_details' item.product.slug%}"><p> {{ item.product.name }} </p></a>
          
           <p>Quantity: {{ item.quantity }} </p>
            <p>Price per item:₹{{item.product.price }} </p>

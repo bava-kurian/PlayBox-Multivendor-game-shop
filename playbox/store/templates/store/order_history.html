@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %} {% block baseblock %}
+<h1>Order History</h1>
+{% for order in orders %}
+<h2>Order ID: {{ order.id }}</h2>
+<p>Name: {{ order.first_name }} {{ order.last_name }}</p>
+<p>Email: {{ order.email }}</p>
+<p>Phone: {{ order.phone }}</p>
+<p>Address: {{ order.address }}, {{ order.city }}, {{ order.zipcode }}</p>
+<p>Payment Status: {{ order.is_paid }}</p>
+<p>Order Date: {{ order.created_at }}</p>
+<h3>Products:</h3>
+<ul>
+  {% for item in order.items.all %}
+  <li>
+    {{ item.product.name }} - Quantity: {{ item.quantity }} - Price: ₹{{
+    item.get_display_price }}
+  </li>
+  {% endfor %}
+</ul>
+<p>Total: ₹{{ order.paid_amount }}</p>
+{% endfor %} {% endblock %}

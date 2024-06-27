@@ -41,8 +41,14 @@
             >View vendor details</a
           >
         </p>
-        <a href="{%url 'order_single' product.slug%}" class="btn btn-success mb-2">Buy Now</a><br />
-        <a href="{% url 'view_cart' %}" class="btn btn-primary">Add to Cart</a>
+        <a
+          href="{%url 'order_single' product.slug%}"
+          class="btn btn-success mb-2"
+          >Buy Now</a
+        ><br />
+        <a href="{%url 'add_to_cart' product.id %}" class="btn btn-primary"
+          >Add to Cart</a
+        >
       </div>
     </div>
   </div>

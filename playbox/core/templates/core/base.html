@@ -20,11 +20,11 @@
     referrerpolicy="no-referrer" />
     <style>
       body {
-        background-color: #121212;
+        background-color: #000000;
         color: #fff;
       }
       .navbar {
-        background-color: #1f1f1f;
+        background-color: #000000;
       }
       .navbar-brand,
       .nav-link {
@@ -74,7 +74,7 @@
       }
 
       .footer {
-        background-color: #1f1f1f;
+        background-color: #000000;
         color: #ff3e3e;
         padding: 20px;
         text-align: center;
@@ -126,8 +126,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="{% url 'index' %}">
-        <img src="{% static 'core/logo.svg' %}" alt="Game Bazaar Logo" />
-        PlayBox
+          <img src="{% static 'core/logo.png' %}" alt="Game Bazaar Logo" / style="height: 50px;width:auto; ">
       </a>
       <button
         class="navbar-toggler"

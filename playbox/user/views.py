@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from store.models import Product,Category
+from store.models import Product,Category,Cart,CartItem
 from .models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
@@ -56,10 +56,15 @@ def ProfileView(request):
     user=UserProfile.objects.get(user=request.user)
     products=Product.objects.filter(user=user)
     orders = Order.objects.filter(user=request.user)
+    cart = Cart.objects.get(user=request.user)
+    cart_items = cart.items.all()
+    
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
     
     return render(request,'user/user_profile.html',{'products':products,
                                                     'user':user,
-                                                    'orders':orders},)
+                                                    'orders':orders,
+                                                    'cart_items':cart_items},)
 @login_required
 def MyStoreView(request):
     user=UserProfile.objects.get(pk=request.user.pk)
