@@ -2,6 +2,7 @@
 <div class="container">
   <h1>Your Cart</h1>
   <div class="row">
+    {%if cart_items%}
     {% for item in cart_items %}
     <div class="col-md-4 mb-4">
       <div class="card">
@@ -50,6 +51,12 @@
       </div>
     </div>
     {% endfor %}
+    {%else%}
+    <div class="mt-4">
+      <h5>cart empty.....😕</h5>
+    </div>
+    
+    {%endif%}
   </div>
   <div class="mt-4">
     <h5>Total Price: Rs. {{ total_price }}</h5>
