@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %} {% block baseblock %}
+<div class="container">
+  <h1>Order Details</h1>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Order ID: {{ order.id }}</h5>
+      <p class="card-text">
+        <strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}
+      </p>
+      <p class="card-text"><strong>Address:</strong> {{ order.address }}</p>
+      <p class="card-text"><strong>Phone:</strong> {{ order.phone }}</p>
+      <p class="card-text"><strong>Email:</strong> {{ order.email }}</p>
+      <p class="card-text"><strong>Pincode:</strong> {{ order.pincode }}</p>
+      <p class="card-text"><strong>City:</strong> {{ order.city }}</p>
+      <p class="card-text">
+        <strong>Payment Status:</strong> {{ order.payment_status }}
+      </p>
+      <p class="card-text">
+        <strong>Delivery Status:</strong> {{ order.delivery_status }}
+      </p>
+      <p class="card-text">
+        <strong>Order Date:</strong> {{ order.order_date }}
+      </p>
+      <h5 class="card-title">Products:</h5>
+      <ul class="list-group">
+        {% for item in order.orderitem_set.all %}
+        <li class="list-group-item">
+          {{ item.product.name }} - Quantity: {{ item.quantity }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

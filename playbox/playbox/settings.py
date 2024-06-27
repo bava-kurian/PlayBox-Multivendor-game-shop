@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-*9*i!rb0suq_xaj_h(@$nz^m14yt!kg4gxt8%*orwhyf&h^3u=
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+#razorpay 
+RAZORPAY_KEY_ID='rzp_test_2psiWj6uUNU38t'
+RAZORPAY_SECRET_KEY='bREGKvCAX6sGHVzl5vRaKFsb'
 # Application definition
 
 INSTALLED_APPS = [

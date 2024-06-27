@@ -15,4 +15,5 @@ urlpatterns = [
     path('remove_from_cart/<int:cart_item_id>/', views.RemoveFormCart, name='remove_from_cart'),
     path('checkout/',views.Checkout,name='checkout'),
     path('order_single/<slug:slug>/',views.OrderSingle,name="order_single"),
+    path('order_details/<int:order_id>/',views.OrderDetails,name="order_details"),
 ]

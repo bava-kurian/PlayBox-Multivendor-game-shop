@@ -1,9 +1,12 @@
+import razorpay
+from django.conf import settings
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import TemplateView,DetailView
 from .models import Product,Category,Cart,CartItem,Order,OrderItem
 from user.models import UserProfile
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .froms import OrderForm
 # Create your views here.
@@ -91,34 +94,49 @@ def DecrementQuantity(request, cart_item_id):
 
 @login_required
 def Checkout(request):
-    cart=Cart.objects.get(user=request.user)
-    cart_items = cart.items.all()
-    cart_count=0
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
-    cart_count=sum( item.quantity for item in cart_items)
-    form = OrderForm(request.POST)
+    cart = get_object_or_404(Cart, user=request.user)
+    razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
     if request.method == 'POST':
-
+        form = OrderForm(request.POST)
         if form.is_valid():
-    
             order = form.save(commit=False)
-            order.created_by = request.user
-            order.paid_amount = total_price
+            order.user = request.user
             order.save()
-            for item in cart_items:
-                product = item.product
-                quantity = int(item.quantity)
-                price = product.price * quantity
+            
+            for item in cart.items.all():
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    price=item.product.price,
+                    quantity=item.quantity
+                )
+            
+            # Create Razorpay order
+            razorpay_order = razorpay_client.order.create(dict(
+                amount=int(cart.get_total_price() * 100),  # Amount in paise
+                currency='INR',
+                payment_capture='1'
+            ))
+            order.razorpay_order_id = razorpay_order['id']
+            order.save()
 
-                item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
-            cart.delete()
-            return redirect('index')
-        else:
-            form = OrderForm()
-    return render(request, 'store/checkout.html', {'cart_items': cart_items,
-                                                   'total_price':total_price,
-                                                   'total_items':cart_count,
-                                                   'form':form})
+            return render(request, 'store/payment.html', {'order': order, 'razorpay_key': settings.RAZORPAY_KEY_ID, 'amount': int(cart.get_total_price() * 100)})
+    else:
+        form = OrderForm()
+    
+    return render(request, 'store/checkout.html', {'form': form, 'cart': cart, 'total_price': cart.get_total_price()})
+
+@csrf_exempt
+def payment_success(request):
+    if request.method == 'POST':
+        data = request.POST
+        order = get_object_or_404(Order, razorpay_order_id=data['razorpay_order_id'])
+        order.is_paid = True
+        order.razorpay_payment_id = data['razorpay_payment_id']
+        order.razorpay_signature = data['razorpay_signature']
+        order.save()
+        return redirect('order_detail', order.id)
+    return redirect('index')
     
 @login_required
 def OrderSingle(request,slug):
@@ -138,3 +156,13 @@ def OrderSingle(request,slug):
     return render(request, 'store/order_single.html', {'product': product,
                                                    'total_price':product.price,
                                                    'form':form})
+    
+def OrderDetails(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order_items = OrderItem.objects.filter(order=order)
+    
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+    return render(request, 'store/order_details.html', context)

@@ -53,11 +53,13 @@ def LogoutView(request):
         return redirect('index')
 @login_required
 def ProfileView(request):
-    user=UserProfile.objects.get(pk=request.user.pk)
+    user=UserProfile.objects.get(user=request.user)
     products=Product.objects.filter(user=user)
+    orders = Order.objects.filter(user=request.user)
     
     return render(request,'user/user_profile.html',{'products':products,
-                                                    'user':user},)
+                                                    'user':user,
+                                                    'orders':orders},)
 @login_required
 def MyStoreView(request):
     user=UserProfile.objects.get(pk=request.user.pk)

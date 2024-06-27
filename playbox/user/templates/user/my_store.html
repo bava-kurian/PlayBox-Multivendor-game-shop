@@ -70,14 +70,9 @@
           alt="{{ product.name }}"
         />
         {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ order.product.name }}</h5>
-          <p class="card-text">
-            {% if product.description|length > 20 %} {{product.description|truncatewords:20 }}...
-            {% else %} 
-            {{product.description }}
-             {% endif %}
-          </p>
+        
+           <div class="card-body">
+          <a href="{%url 'product_details' order.product.slug%}"><h5 class="card-title">{{ order.product.name }}</h5></a>
           <p class="card-text"><strong>Order id:</strong> {{ order.order.id }}</p>
           <p class="card-text"><strong>Price:</strong> ₹{{ order.product.price }}</p>
           <p class="card-text"><strong>order Request:</strong> {{ order.quantity }}</p>
@@ -88,6 +83,7 @@
           <p class="card-text"><strong>phone:</strong> {{ order.order.phone }}</p>
           <p class="card-text"><strong>Email:</strong> {{ order.order.email }}</p>
         </div>
+       
       </div>
     </div>
     {% endfor %}

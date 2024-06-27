@@ -82,28 +82,16 @@
         <div class="col-12">
           <h2 class="vendor-title">Products</h2>
         </div>
-        <!-- Repeat this block for each product -->
-         {%for p in products%}
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img
-              src="{{p.image.url}}"
-              class="card-img-top"
-              alt="Product Image"
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{p.title}}</h5>
-              <p class="card-text"></p>
-              <p class="card-price">Rs{{p.price}}</p>
-              <a href="{%url 'product_details' p.slug%}" class="btn btn-primary mb-2"
-                >View Details</a
-              >
-              <a href="#" class="btn btn-success mb-2">Buy Now</a>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-        {%endfor%}
+        <div class="container">
+          <h1>Your Orders</h1>
+          <ul class="list-group">
+              {% for order in orders %}
+              <li class="list-group-item">
+                  <a href="{%url 'order_details' order.id%}">Order ID: {{ order.id }} - {{ order.created_at }}</a>
+              </li>
+              {% endfor %}
+          </ul>
+      </div>
         <!-- End of product block -->
       </div>
     </div>

@@ -57,6 +57,7 @@ class CartItem(models.Model):
         return f"{self.product.name} ({self.quantity})"
     
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email=models.EmailField()
@@ -80,5 +81,5 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
     
     def get_display_price(self):
-        return self.price / 100
+        return self.price 
 
