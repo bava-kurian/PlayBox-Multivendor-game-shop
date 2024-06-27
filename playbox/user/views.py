@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
-from store.froms import ProductForm
+from store.froms import ProductForm,VendorForm
 from django.utils.text import slugify
 from django.contrib import messages
+from store.models import Order,OrderItem
 # Create your views here.
 
 def VendorDetailView(request,pk):
@@ -15,7 +16,8 @@ def VendorDetailView(request,pk):
     vendor=UserProfile.objects.get(pk=pk)
     product=Product.objects.filter(user=vendor)
     return render(request,'user/vendor_detail.html',
-                  {'vendor':user,'product':product})
+                  {'vendor':vendor,
+                   'product':product,})
     
 def SignupView(request):
     if request.method == 'POST':
@@ -53,12 +55,16 @@ def LogoutView(request):
 def ProfileView(request):
     user=UserProfile.objects.get(pk=request.user.pk)
     products=Product.objects.filter(user=user)
-    return render(request,'user/user_profile.html',{'products':products})
+    
+    return render(request,'user/user_profile.html',{'products':products,
+                                                    'user':user},)
 @login_required
 def MyStoreView(request):
     user=UserProfile.objects.get(pk=request.user.pk)
     products=Product.objects.filter(user=user)
-    return render(request,'user/my_store.html',{'products':products})
+    ordres=OrderItem.objects.filter(product__user=user)
+    return render(request,'user/my_store.html',{'products':products,
+                                                'orders':ordres})
 
 @login_required
 def AddProduct(request):
@@ -101,13 +107,28 @@ def EditProduct(request,slug):
             product = form.save(commit=False)
             product.slug = slugify(product.name)
             product.save()
-            messages.success(request,"The wproduct was edited!")
+            messages.success(request,"The product was edited!")
             return redirect('my_store')
     else:
         form = ProductForm(instance=product)
     
     categories = Category.objects.all()
     
-    return render(request, 'user/edit_product.html', {'form': form, 'categories': categories, 'product': product})
+    return render(request, 'user/edit_product.html', {'form': form, 
+                                                      'categories': categories, 
+                                                      'product': product})
             
-            
+@login_required
+def Become_vendor(request):
+    if request.method == 'POST':
+        form = VendorForm(request.POST, instance=request.user.userprofile)
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.is_vendor = True
+            user_profile.save()
+            messages.success(request, 'Your profile has been updated successfully and you are now a vendor!')
+            return redirect('my_store')
+    else:
+        form = VendorForm(instance=request.user.userprofile)
+
+    return render(request, 'user/become_vendor.html', {'form': form})

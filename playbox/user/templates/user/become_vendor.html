@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% block baseblock %}
+<div class="container">
+    <h1>Become Vendor</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_vendor_name">Vendor Name</label>
+            <input type="text" class="form-control {% if form.vendor_name.errors %}is-invalid{% endif %}" id="id_vendor_name" name="vendor_name" value="{{ form.vendor_name.value }}">
+            {% for error in form.vendor_name.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_address">Address</label>
+            <textarea class="form-control {% if form.address.errors %}is-invalid{% endif %}" id="id_address" name="address" rows="3">{{ form.address.value }}</textarea>
+            {% for error in form.address.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_phone">Phone</label>
+            <input type="text" class="form-control {% if form.phone.errors %}is-invalid{% endif %}" id="id_phone" name="phone" value="{{ form.phone.value }}">
+            {% for error in form.phone.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email" name="email" value="{{ form.email.value }}">
+            {% for error in form.email.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input {% if form.accept_terms.errors %}is-invalid{% endif %}" id="id_accept_terms" name="accept_terms" required>
+            <label class="form-check-label" for="id_accept_terms">I agree to the terms and conditions</label>
+            {% for error in form.accept_terms.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Become Vendor</button>
+    </form>
+</div>
+{% endblock %}

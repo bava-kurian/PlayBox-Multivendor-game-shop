@@ -68,17 +68,16 @@
       <div class="row">
         <div class="col-12">
           <h1 class="vendor-title">{{request.user.username}}</h1>
-          <p>Location: City, Country</p>
-          <p>Email: vendor@example.com</p>
-          <p>Phone: (123) 456-7890</p>
-          <p>
-            Description: Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Nulla vehicula, justo ut interdum aliquet, leo elit pharetra
-            massa, ac bibendum odio ligula ac risus.
-          </p>
-        </div>
-      </div>
-
+          {%if request.user.userprofile.is_vendor is False %}
+          <div class="card mb-4">
+            <div class="card-header">Become a vendor </div>
+            <div class="card-body">
+              <a href="{% url 'become_vendor' %}"
+                ><button class="btn btn-primary">Become vendor</button></a
+              >
+            </div>
+          </div>
+          {%endif%}
       <div class="row">
         <div class="col-12">
           <h2 class="vendor-title">Products</h2>

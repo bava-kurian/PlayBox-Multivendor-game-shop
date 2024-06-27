@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% block baseblock %}
+<div class="container">
+    <h1>Checkout</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Review Your Order</h3>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5>{{ product.name }}</h5>
+                            <p>Price: Rs. {{ product.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <p>Product: {{ product.name }}</p>
+                    <p>Price: Rs. {{ product.price }}</p>
+                    <hr>
+                    <h5 class="card-title">Shipping Details</h5>
+                    <form method="post"  enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button type="submit" class="btn btn-primary btn-block">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

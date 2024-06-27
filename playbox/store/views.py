@@ -1,10 +1,11 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import TemplateView,DetailView
-from .models import Product,Category,Cart,CartItem
+from .models import Product,Category,Cart,CartItem,Order,OrderItem
 from user.models import UserProfile
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .froms import OrderForm
 # Create your views here.
 
 def ProductDetailView(request,slug):
@@ -87,3 +88,53 @@ def DecrementQuantity(request, cart_item_id):
     else:
         cart_item.delete()
     return redirect('view_cart')
+
+@login_required
+def Checkout(request):
+    cart=Cart.objects.get(user=request.user)
+    cart_items = cart.items.all()
+    cart_count=0
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    cart_count=sum( item.quantity for item in cart_items)
+    form = OrderForm(request.POST)
+    if request.method == 'POST':
+
+        if form.is_valid():
+    
+            order = form.save(commit=False)
+            order.created_by = request.user
+            order.paid_amount = total_price
+            order.save()
+            for item in cart_items:
+                product = item.product
+                quantity = int(item.quantity)
+                price = product.price * quantity
+
+                item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
+            cart.delete()
+            return redirect('index')
+        else:
+            form = OrderForm()
+    return render(request, 'store/checkout.html', {'cart_items': cart_items,
+                                                   'total_price':total_price,
+                                                   'total_items':cart_count,
+                                                   'form':form})
+    
+@login_required
+def OrderSingle(request,slug):
+    product=Product.objects.get(slug=slug)
+    form = OrderForm(request.POST)
+    if request.method == 'POST':
+
+        if form.is_valid():
+    
+            order = form.save(commit=False)
+            order.created_by = request.user
+            order.paid_amount = product.price
+            order.save()
+            return redirect('index')
+        else:
+            form = OrderForm()
+    return render(request, 'store/order_single.html', {'product': product,
+                                                   'total_price':product.price,
+                                                   'form':form})

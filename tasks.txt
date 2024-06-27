@@ -19,7 +19,7 @@ create apps ✅
 -show images✅
 -implement search✅
 -category view
--vendor creation and details
+-vendor creation and details✅
 -fix the vendor view
 -add product✅
 -remove product✅
@@ -27,11 +27,17 @@ create apps ✅
 -keep track of products give admin approval and status (optional)
 -adminpage for vendors
 -buy options
-    -cart
-        -add✅
+    -cart✅
+        -add
         -remove✅
         -inceremt and decrement✅
     -wishlist
+    -user oders listing
+    -Set default 404 page
     -checkout
+        -page✅
+        -form✅
+        -little upgrade
+        -funtionality
     -payments(optional)
 -deplaymonet-digitalocena/heroku/pythonaywhere

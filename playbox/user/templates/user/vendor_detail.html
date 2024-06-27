@@ -67,15 +67,14 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-12">
-          <h1 class="vendor-title">{{vendor.username}}</h1>
-          <p>Location: City, Country</p>
-          <p>Email: vendor@example.com</p>
-          <p>Phone: (123) 456-7890</p>
-          <p>
-            Description: Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Nulla vehicula, justo ut interdum aliquet, leo elit pharetra
-            massa, ac bibendum odio ligula ac risus.
-          </p>
+          {%if vendor.vendor_name is null%}
+          <h2 class="vendor-title">Username:{{vendor.username}}</h2>
+          {%else%}
+          <h2 class="vendor-title">Vendor name: {{vendor.vendor_name}}</h2>
+          {%endif%}
+          <p>Location:{{vendor.address}}</p>
+          <p>Email: {{vendor.email}}</p>
+          <p>Phone: {{vendor.phone}}</p>
         </div>
       </div>
 
