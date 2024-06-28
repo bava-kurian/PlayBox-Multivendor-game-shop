@@ -23,6 +23,7 @@
     <h2 class="vendor-title">Products you listed</h2>
   </div>
   <div class="row">
+    {%if products%}
     {% for product in products %}
     <div class="col-md-4">
       <div class="card mb-4 shadow-sm">
@@ -55,11 +56,15 @@
       </div>
     </div>
     {% endfor %}
+    {%else%}
+    <h5>you have no products listed...</h5>
+    {%endif%}
   </div>
   <div class="col-12">
     <h2 class="vendor-title">Orders you received</h2>
   </div>
   <div class="row">
+    {%if orders%}
     {% for order in orders %}
     {%if order.order.is_paid is True%}
     <div class="col-md-4">
@@ -77,7 +82,7 @@
           <p class="card-text"><strong>Order id:</strong> {{ order.order.id }}</p>
           <p class="card-text"><strong>Price:</strong> ₹{{ order.product.price }}</p>
           <p class="card-text"><strong>order Request:</strong> {{ order.quantity }}</p>
-          <p class="card-text"><strong>Total Price:</strong> {{ order.price }}</p
+          <p class="card-text"><strong>Total Price:</strong> {{ order.price }}</p>
           <p class="card-text"><strong>Stock:</strong> {{ order.product.stock }}</p>
           <p class="card-text"><strong>Payment:</strong> {%if order.order.is_paid%}Done{%else%}Pending{%endif%}</p>
           <p class="card-text"><strong>Address:</strong> {{ order.order.address }}</p>
@@ -90,6 +95,9 @@
     </div>
     {%endif%}
     {% endfor %}
+  {%else%}
+  <div class="col-md-4"><h4>You have no orders yet 😕</h4></div>
+  {%endif%}
   </div>
 </div>
 {% endblock %}
