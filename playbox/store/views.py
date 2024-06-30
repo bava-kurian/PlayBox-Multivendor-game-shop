@@ -16,6 +16,10 @@ def ProductDetailView(request,slug):
     category_hierarchy = product.get_category_hierarchy()
     return render(request, 'store/product_detail.html', {'product': product, 
                                                    'category_hierarchy': category_hierarchy})
+    
+def AllProducts(request):
+    products=Product.objects.all()
+    return render(request, 'store/all_products.html', {'products': products})
 
 def CategoryListView(request):
     categories=Category.objects.all()

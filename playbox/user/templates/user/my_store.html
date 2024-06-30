@@ -1,5 +1,6 @@
 {% extends "core/base.html" %} {% block title %}My Store{% endblock %}
  {% block baseblock %}
+ {%load multiply%}
 
 <div class="container mt-5">
   <h1>Your Store🏪</h1>
@@ -82,7 +83,7 @@
           <p class="card-text"><strong>Order id:</strong> {{ order.order.id }}</p>
           <p class="card-text"><strong>Price:</strong> ₹{{ order.product.price }}</p>
           <p class="card-text"><strong>order Request:</strong> {{ order.quantity }}</p>
-          <p class="card-text"><strong>Total Price:</strong> {{ order.price }}</p>
+          <p class="card-text"><strong>Total Price:</strong> {{ order.price|multiply:order.quantity }}</p>
           <p class="card-text"><strong>Stock:</strong> {{ order.product.stock }}</p>
           <p class="card-text"><strong>Payment:</strong> {%if order.order.is_paid%}Done{%else%}Pending{%endif%}</p>
           <p class="card-text"><strong>Address:</strong> {{ order.order.address }}</p>

@@ -1,51 +1,37 @@
-{%extends 'core/base.html'%}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-   
-    <title>{%block title%}{% firstof request.user.get_full_name user.username %}{%endblock%}</title>
-
-  </head>
-  {%block baseblock%}
-    
-    <div class="container mt-5">
-      <div class="row">
+{% extends 'core/base.html' %}
+{% load static %}
+{% block baseblock %}
+<div class="container mt-5">
+    <div class="row">
         <div class="col-12">
-          <h1 class="vendor-title">Username:{{request.user.username}}😎</h1>
-          {%if request.user.userprofile.is_vendor is False %}
-          <div class="card mb-4">
-            <div class="card-header">Become a vendor </div>
-            <div class="card-body">
-              <a href="{% url 'become_vendor' %}"
-                ><button class="btn btn-primary">Become vendor</button></a
-              >
+            <h1 class="vendor-title">Username: {{ request.user.username }}😎</h1>
+            {% if not request.user.userprofile.is_vendor %}
+            <div class="card mb-4">
+                <div class="card-header">Become a vendor</div>
+                <div class="card-body">
+                    <a href="{% url 'become_vendor' %}">
+                        <button class="btn btn-primary">Become vendor</button>
+                    </a>
+                </div>
             </div>
-          </div>
-          {%endif%}
-      <div class="row">
-    
+            {% endif %}
+        </div>
         <div class="container">
-          <h1>Your Orders</h1>
-          <ul class="list-group">
-            {%if orders%}
-              {% for order in orders %}
-              <li class="list-group-item">
-                  <a href="{%url 'order_details' order.id%}">Order ID: {{ order.id }} - {{ order.created_at }}</a>
-              </li>
-              {% endfor %}
-              {% else %}
-              <h5>No Orders yet</h5>
-              {%endif%}
-          </ul>
-      </div>
-        <!-- End of product block -->
-    </div>  
+            <h1>Your Orders</h1>
+            <ul class="list-group">
+                {% if orders %}
+                    {% for order in orders %}
+                    {%if order.order.is_paid is True%}
+                    <li class="list-group-item">
+                        <a href="{% url 'order_details' order.id %}">Order ID: {{ order.id }} - {{ order.created_at }}</a>
+                    </li>
+                    {%endif%}
+                    {% endfor %}
+                {% else %}
+                    <h5>No Orders yet</h5>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-    {%endblock%}
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </body>
-</html>
+</div>
+{% endblock %}

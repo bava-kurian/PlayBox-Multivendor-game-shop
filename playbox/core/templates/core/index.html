@@ -1,57 +1,89 @@
-
 {% extends 'core/base.html' %}
-{%load static%}
+{% load static %}
 {% block title %}Home{% endblock %}
 
 <div class="loader"></div>
 
 {% block baseblock %}
 <style>
-    .hero{
+    .hero {
         background-image: url('{% static "core/hero_bg.png" %}');
-      }
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    .hero .carousel-caption {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .carousel-item .card {
+        margin: auto;
+    }
 </style>
 <!-- Hero Section with Carousel -->
- <div class="hero">
-<div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" style="height: 90vh;">
-    <div class="carousel-inner" style="height: 100%;">
-        <div class="carousel-item active" style="height: 100%;">
-            <!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
-            <div class="carousel-caption d-none d-md-block">
-                <h1>Welcome to PlayBox</h1>
-                <p>Your one-stop shop for all gaming needs</p>
+<div class="hero">
+    <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" style="height: 90vh;">
+        <div class="carousel-inner" style="height: 100%;">
+            <div class="carousel-item active" style="height: 100%;">
+                <div class="carousel-caption d-block">
+                    <h1>Welcome to PlayBox</h1>
+                    <p>Your one-stop shop for all gaming needs</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="height: 100%;">
+                <div class="carousel-caption d-block">
+                    <h1>Latest Consoles</h1>
+                    <p>Discover the newest gaming consoles</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="height: 100%;">
+                <div class="carousel-caption d-block">
+                    <h1>Top Games</h1>
+                    <p>Find the latest and greatest games</p>
+                </div>
             </div>
         </div>
-        <div class="carousel-item" style="height: 100%;">
-            <!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
-            <div class="carousel-caption d-none d-md-block">
-                <h1>Latest Consoles</h1>
-                <p>Discover the newest gaming consoles</p>
-            </div>
-        </div>
-        <div class="carousel-item" style="height: 100%;">
-            <!--<img src="{% static 'path/to/your/image1.jpg' %}" class="d-block w-100" alt="...">-->
-            <div class="carousel-caption d-none d-md-block">
-                <h1>Top Games</h1>
-                <p>Find the latest and greatest games</p>
-            </div>
-        </div>
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+</div>
+
+<!-- New Arrivals Section -->
+<h2 class="mt-5">New Arrivals</h2>
+<div id="newArrivalsCarousel" class="carousel slide d-block d-md-none" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in new_arrivals %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="card mb-4" style="width: 14rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#newArrivalsCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#newArrivalsCarousel" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
 </div>
-
- </div>
-
-<!-- New Arrivals Section -->
-<h2 class="mt-5">New Arrivals</h2>
-<div class="row">
+<div class="row d-none d-md-flex">
     {% for product in new_arrivals %}
     <div class="col-md-3">
         <div class="card mb-4" style="width: 14rem;">
@@ -59,13 +91,11 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
             {% endif %}
             <div class="card-body">
-               <a href="{%url 'product_details' product.slug%}"><h5 class="card-title">{{ product.name }}</h5></a> 
-                <p class="card-text">
-                    {{ product.description|truncatewords:20 }}
-                </p>
+                <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="card-text"><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
-                <a href="{%url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
             </div>
         </div>
     </div>
@@ -74,7 +104,35 @@
 
 <!-- Consoles Section -->
 <h2 class="mt-5">Consoles</h2>
-<div class="row">
+<div id="consolesCarousel" class="carousel slide d-block d-md-none" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in consoles %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="card mb-4" style="width: 14rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#consolesCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#consolesCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="row d-none d-md-flex">
     {% for product in consoles %}
     <div class="col-md-3">
         <div class="card mb-4" style="width: 14rem;">
@@ -82,20 +140,48 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">
-                    {{ product.description|truncatewords:20 }}
-                </p>
+                <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="card-text"><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
-                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+
+<!-- Video Games Section -->
 <h2 class="mt-5">Video Games</h2>
-<div class="row">
+<div id="gamesCarousel" class="carousel slide d-block d-md-none" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in games %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="card mb-4" style="width: 14rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#gamesCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#gamesCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="row d-none d-md-flex">
     {% for product in games %}
     <div class="col-md-3">
         <div class="card mb-4" style="width: 14rem;">
@@ -103,13 +189,11 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">
-                    {{ product.description|truncatewords:20 }}
-                </p>
+                <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="card-text"><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
-                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
             </div>
         </div>
     </div>
@@ -118,7 +202,35 @@
 
 <!-- Controllers Section -->
 <h2 class="mt-5">Controllers</h2>
-<div class="row">
+<div id="controllersCarousel" class="carousel slide d-block d-md-none" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in controllers %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="card mb-4" style="width: 14rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#controllersCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#controllersCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="row d-none d-md-flex">
     {% for product in controllers %}
     <div class="col-md-3">
         <div class="card mb-4" style="width: 14rem;">
@@ -126,13 +238,11 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">
-                    {{ product.description|truncatewords:20 }}
-                </p>
+                <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="card-text"><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
-                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
             </div>
         </div>
     </div>
@@ -141,7 +251,35 @@
 
 <!-- Accessories Section -->
 <h2 class="mt-5">Accessories</h2>
-<div class="row">
+<div id="accessoriesCarousel" class="carousel slide d-block d-md-none" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in accessories %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="card mb-4" style="width: 14rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#accessoriesCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#accessoriesCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="row d-none d-md-flex">
     {% for product in accessories %}
     <div class="col-md-3">
         <div class="card mb-4" style="width: 14rem;">
@@ -149,13 +287,11 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">
-                    {{ product.description|truncatewords:20 }}
-                </p>
+                <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="card-text"><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
-                <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}All Products{% endblock %}
+
+<div class="loader"></div>
+
+{% block baseblock %}
+<h1 class="mt-5">All Products</h1>
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'product_details' product.slug %}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>₹{{ product.price }}</strong></p>
+                    <div class="mt-auto">
+                        <a href="{% url 'product_details' product.slug %}" class="btn btn-primary btn-sm">View Product</a>
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
